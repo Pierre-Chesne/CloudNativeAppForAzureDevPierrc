@@ -63,7 +63,7 @@ jobs:
     - name: Construire et pousser image Docker
       uses: docker/build-push-action@v2.7.0
       with:         
-          context: ./
+          context: ./src/WebAppUI
           file: ./src/WebAppUI/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
