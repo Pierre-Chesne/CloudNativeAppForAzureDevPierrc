@@ -60,3 +60,12 @@ jobs:
         tags: |
          type=semver,pattern={{version}},value=1.0.0
 
+    - name: Construire et pousser image Docker
+      uses: docker/build-push-action@v2.7.0
+      with:         
+          context: ./
+          file: ./src/WebAppUI/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
