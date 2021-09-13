@@ -32,7 +32,7 @@ jobs:
         dotnet restore ${{env.SRC_PATH}}
         dotnet build ${{env.SRC_PATH}} --configuration Release --no-restore    
         dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
-        dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish                
+        dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
 
     - name: Login to Azure
       uses: Azure/login@v1
@@ -45,3 +45,8 @@ jobs:
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/main.bicep \
           --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.SKU_PLAN }}'
+
+    - name: Get Key ACR
+      run: |
+        $key =`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv` 
+        $key   
