@@ -5,22 +5,33 @@ on:
 env:  
   SRC_PATH: ./src
   LOCATION: "westeurope"
+  DOTNET_VERSION: 3.1.x
   RG_NAME: "cnawebappui-rg"
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
   APP_PLAN_NAME: "cnawebappui-plan"
   SKU_PLAN: "S1"
-  
-  IMAGE_NAME: 'pierrcacr.azurecr.io/cnawebappui'
-  IMAGE_VERSION: 'v.0.5.2'
+
 
 jobs:                                     
-  build:
-    runs-on: ubuntu-latest                
-    
+  build-Test-Push-Image:
+    runs-on: ubuntu-latest
+
     steps:
     - name: "Checkout the code"
       uses: actions/checkout@v2
+
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+    - name: deploy infra
+      run: |
+        az deployment sub create \
+          --location ${{ env.LOCATION}} \
+          --template-file ./Bicep/mainACR.bicep \
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}'
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -33,23 +44,3 @@ jobs:
         dotnet build ${{env.SRC_PATH}} --configuration Release --no-restore    
         dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
         dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
-
-    - name: Login to Azure
-      uses: Azure/login@v1
-      with:        
-          creds: ${{secrets.AZURE_CREDENTIALS}}  
-
-    - name: deploy infra
-      run: |
-        az deployment sub create \
-          --location ${{ env.LOCATION}} \
-          --template-file ./Bicep/main.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.SKU_PLAN }}'
-
-    - name: Get Key ACR
-      run: |
-        key=`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv` 
-  
-    - name: login ACR
-      run: |
-        az acr login --name ${{ env.ACR_NAME}}
