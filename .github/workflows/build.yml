@@ -1,11 +1,14 @@
-name: Build and deploy
+name: Test - Build and deploy
 on:
   workflow_dispatch:
 
 env:  
   SRC_PATH: ./src
   LOCATION: "westeurope"
-  RG_NAME: "cnawebappui-rg"  
+  RG_NAME: "cnawebappui-rg"
+  IMAGE_NAME: 'pierrcacr.azurecr.io/cnawebappui'
+  IMAGE_VERSION: 'v.0.5.2'
+
 
 jobs:                                     
   build:
@@ -27,13 +30,11 @@ jobs:
         dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
         dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
 
-    - name: Login to Azure
-      uses: Azure/login@v1
-      with:        
-        creds: ${{secrets.AZURE_CREDENTIALS}}
+    - name: Build Image
+      run: |
+        cd ${{env.SRC_PATH}}/WebAppUI && docker build . -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
 
-    - name: deploie Infra
+    - name: Check
       run: |
         ls
-
-
+        docker image ls
