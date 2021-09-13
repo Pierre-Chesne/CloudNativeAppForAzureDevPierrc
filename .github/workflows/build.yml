@@ -52,4 +52,4 @@ jobs:
   
     - name: login ACR
       run: |
-         docker login cnawebappuiacr.azurecr.io --username cnawebappuiacr --password $key
+        az acr login --name ${{ env.ACR_NAME}}
