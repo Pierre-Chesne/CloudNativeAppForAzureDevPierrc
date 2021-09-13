@@ -4,7 +4,8 @@ on:
 
 env:  
   SRC_PATH: ./src
-  LOCATION: "westeurope"  
+  LOCATION: "westeurope"
+  RG_NAME: "cnawebappui-rg"  
 
 jobs:                                     
   build:
