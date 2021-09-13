@@ -32,7 +32,7 @@ jobs:
 
     - name: Build Image
       run: |
-        docker build --pull -t $webappnameinitcode -f  dockerfilepath slnpath
+        docker build --pull -t pierrc -f  dockerfilepath slnpath
 
     - name: Check
       run: |
