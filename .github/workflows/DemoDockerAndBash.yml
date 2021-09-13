@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   
 env:  
-  SUFFIXE: 007  
+  SUFFIXE: 7  
   SRC_PATH: ./src
   DOTNET_VERSION: 3.1.x
   AZ_CLI_VERSION: 2.11.1
