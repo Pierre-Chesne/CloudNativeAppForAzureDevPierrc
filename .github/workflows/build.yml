@@ -30,11 +30,11 @@ jobs:
         dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
         dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
 
-    - name: Build Image
-      run: |
-        docker build --pull -t pierrc -f  dockerfilepath slnpath
-
     - name: Check
       run: |
-        ls
-        docker image ls
+      - name: deploy infra
+        run: |
+          az deployment sub create \
+            --location ${{ env.LOCATION}} \
+            --template-file ./Bicep/main.bicep \
+            --parameters 'RgSiteName=${{ env.RG_NAME }}'
