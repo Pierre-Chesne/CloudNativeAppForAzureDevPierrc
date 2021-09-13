@@ -1,0 +1,33 @@
+name: Demo Docker And Bash
+on:
+  workflow_dispatch:
+  
+env:  
+  SUFFIXE: 10  
+  SRC_PATH: ./src
+  DOTNET_VERSION: 3.1.x
+  AZ_CLI_VERSION: 2.11.1
+  
+jobs:                                     
+  build:
+    runs-on: ubuntu-latest                
+    
+    steps:
+    - name: "Checkout the code"
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{env.DOTNET_VERSION}}
+    - name: Build and Test the App
+      run: |
+        dotnet restore ${{env.SRC_PATH}}
+        dotnet build ${{env.SRC_PATH}} --configuration Release --no-restore    
+        dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
+        dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+          creds: ${{secrets.AZURE_CREDENTIALS}}  
+    - name: "Run Bash Script to deploy the container"      
+      run: bash ${{env.SRC_PATH}}/template/actiondeploiementdocker.sh  ${{env.SUFFIXE}} ${{env.SRC_PATH}}/WebAppUI/Dockerfile ${{env.SRC_PATH}}

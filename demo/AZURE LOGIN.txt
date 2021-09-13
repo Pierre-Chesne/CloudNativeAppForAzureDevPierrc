@@ -1,0 +1,6 @@
+{
+  "clientId": "f706e9f6-ce1d-4712-8668-6ac8e67b2b8c",
+  "clientSecret": "<GUID>",
+  "subscriptionId": "9a96981c-4056-48b7-9301-7c2757548bcf",
+  "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+}
