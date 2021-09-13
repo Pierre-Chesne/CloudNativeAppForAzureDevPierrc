@@ -49,4 +49,4 @@ jobs:
     - name: Get Key ACR
       run: |
         $key =`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv` 
-        $key   
+        echo $key 
