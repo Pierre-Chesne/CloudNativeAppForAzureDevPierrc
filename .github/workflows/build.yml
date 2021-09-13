@@ -32,7 +32,7 @@ jobs:
 
     - name: Build Image
       run: |
-        cd ${{env.SRC_PATH}}/WebAppUI && docker build . -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
+        cd ${{env.SRC_PATH}}/WebAppUI && docker build --pull -t pierrctest -f dockerfilepath slnpath
 
     - name: Check
       run: |
