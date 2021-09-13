@@ -17,3 +17,12 @@ module ACRDeploy 'acr.bicep' = {
     ACRSku: ACRSku
   }
 }
+
+module AppPlanDeploy 'AppPlan.bicep' = {
+  name: 'AppPlanDeploy'
+  scope: RgSite
+  params: {
+    appPlanName: appPlanName
+    skuPlan: skuPlan
+  }
+}

@@ -6,7 +6,7 @@ env:
   SRC_PATH: ./src
   LOCATION: "westeurope"
   RG_NAME: "cnawebappui-rg"
-  ACR_NAME: "cnawebappui-acr"
+  ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
 
   
@@ -32,7 +32,7 @@ jobs:
         dotnet restore ${{env.SRC_PATH}}
         dotnet build ${{env.SRC_PATH}} --configuration Release --no-restore    
         dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
-        dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
+        dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish                
 
     - name: Login to Azure
       uses: Azure/login@v1
