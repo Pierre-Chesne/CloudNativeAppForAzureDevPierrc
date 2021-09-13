@@ -8,11 +8,11 @@ env:
   RG_NAME: "cnawebappui-rg"
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
-
+  APP_PLAN_NAME: "cnawebappui-plan"
+  SKU_PLAN: "S1"
   
   IMAGE_NAME: 'pierrcacr.azurecr.io/cnawebappui'
   IMAGE_VERSION: 'v.0.5.2'
-
 
 jobs:                                     
   build:
@@ -44,4 +44,4 @@ jobs:
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/main.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}'
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.SKU_PLAN }}'
