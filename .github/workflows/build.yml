@@ -30,6 +30,11 @@ jobs:
         dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
         dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
 
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+          creds: ${{secrets.AZURE_CREDENTIALS}}  
+
     - name: deploy infra
       run: |
         az deployment sub create \
