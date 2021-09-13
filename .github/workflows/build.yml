@@ -6,6 +6,10 @@ env:
   SRC_PATH: ./src
   LOCATION: "westeurope"
   RG_NAME: "cnawebappui-rg"
+  ACR_NAME: "cnawebappui-acr"
+  ACR_SKU: "Standard"
+
+  
   IMAGE_NAME: 'pierrcacr.azurecr.io/cnawebappui'
   IMAGE_VERSION: 'v.0.5.2'
 
@@ -40,4 +44,4 @@ jobs:
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/main.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}'
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{env.ACR_NAME}}' 'ACRSku={{env.ACR_SKU}}'

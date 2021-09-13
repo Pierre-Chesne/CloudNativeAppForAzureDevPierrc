@@ -1,8 +1,11 @@
+param ACRName string
+param ACRSku string 
+
 resource acr 'Microsoft.ContainerRegistry/registries@2020-11-01-preview' = {
-  name: 'acrpierrc'
+  name: ACRName
   location: resourceGroup().location
   sku: {
-    name: 'Standard'
+    name: ACRSku
   }
   properties: {
     adminUserEnabled: true

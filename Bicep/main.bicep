@@ -1,5 +1,8 @@
 targetScope = 'subscription'
 param RgSiteName string
+param ACRName string
+param ACRSku string
+
 
 resource RgSite 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: RgSiteName
@@ -9,5 +12,8 @@ resource RgSite 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 module ACRDeploy 'acr.bicep' = {
   name: 'ACRDeploy'
   scope: RgSite
-  params: {}
+  params: {
+    ACRName: ACRName
+    ACRSku: ACRSku
+  }
 }
