@@ -52,3 +52,11 @@ jobs:
         username: cnawebappuiacr
         password: GqYkjRgbRmY8WpNOSGs1sI6X4+SfLCxV
 
+    - name: Extraire les métadonnées docker
+      id: meta
+      uses: docker/metadata-action@v3.5.0
+      with:
+        images: cnawebappuiacr.azurecr.io/WoodGrove 
+        tags: |
+         type=semver,pattern={{version}},value=1.0.0
+
