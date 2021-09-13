@@ -6,3 +6,8 @@ resource RgSite 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: deployment().location
 }
 
+module ACRDeploy 'acr.bicep' = {
+  name: 'ACRDeploy'
+  scope: RgSite
+  params: {}
+}
