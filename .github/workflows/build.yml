@@ -60,11 +60,6 @@ jobs:
         tags: |
          type=semver,pattern={{version}},value=1.0.0
 
-    - name: Check context
+    - name: Construire image Docker
       run: |
-        ls -lisa
-
-    - name: Construire et pousser image Docker
-      run: |
-        cd ./src/WebAppUI
-        ls Dockerfile
+        cd ./src/WebAppUI && docker build . -t pierrc        
