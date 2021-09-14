@@ -67,4 +67,4 @@ jobs:
     - name: Construire et pousser image Docker
       run: |
         cd ./src/WebAppUI
-        ls -lisa
+        ls Dockerfile
