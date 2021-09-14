@@ -67,9 +67,4 @@ jobs:
     - name: Construire et pousser image Docker
       run: |
         cd ./src/WebAppUI
-
-    - name: Check context
-      run: |
         ls -lisa
-
-
