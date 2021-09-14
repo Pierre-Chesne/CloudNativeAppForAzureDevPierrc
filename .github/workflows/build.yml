@@ -65,11 +65,11 @@ jobs:
         ls -lisa
 
     - name: Construire et pousser image Docker
-      uses: docker/build-push-action@v2.7.0
-      with:         
-          context: ./
-          file: ./${{env.SRC_PATH}}/WebAppUI/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      run: |
+        cd ./src/WebAppUI
+
+    - name: Check context
+      run: |
+        ls -lisa
+
 
