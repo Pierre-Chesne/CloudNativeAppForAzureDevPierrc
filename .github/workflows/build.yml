@@ -29,7 +29,7 @@ jobs:
     - name: Get Key ACR
       run: |
         key=`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv`
-        echo $key
+        echo "::set-output name=content::$(key)"
       id: var_acrkey
 
     - name : test
