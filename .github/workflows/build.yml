@@ -30,8 +30,8 @@ jobs:
       run: |
         key=`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv`
         echo $key
-      #id: var_acrkey
+      id: var_acrkey
 
-    #- name : test
-    #  run: |
-    #    echo "${{ steps.var_acrkey.outputs.content }}"
+    - name : test
+      run: |
+        echo "${{ steps.var_acrkey.outputs.content }}"
