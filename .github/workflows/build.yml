@@ -33,4 +33,14 @@ jobs:
           --template-file ./Bicep/mainACR.bicep \
           --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}'
 
+    - name: Get Key ACR
+      run: |
+        key=`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv`
+        echo "::set-output name=content::$($key)"
+      id: var_keyacr
+
+    - name: Test Key
+      run: |
+        echo "The string is: ${{ steps.var_keyacr.outputs.content }}"  
+
     
