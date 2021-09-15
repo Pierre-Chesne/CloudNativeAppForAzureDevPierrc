@@ -15,7 +15,7 @@ EXPOSE 80
 # FROM build AS publish
 #RUN dotnet publish "CnAppForAzureDev.csproj" -c Release -o /app/publish
 
-COPY /WebAppUI/publish /app
+COPY /Build/publish /app
 
 
 FROM base AS final
