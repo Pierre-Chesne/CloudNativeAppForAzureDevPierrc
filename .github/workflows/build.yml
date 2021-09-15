@@ -41,6 +41,6 @@ jobs:
 
     - name: Test Key
       run: |
-        echo "The string is: ${{ steps.var_keyacr.outputs.content }}"  
+        echo $key
 
     
