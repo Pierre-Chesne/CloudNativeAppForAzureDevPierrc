@@ -31,7 +31,15 @@ jobs:
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/mainACR.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}'   
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}'
+
+    - name: Build and Test the App
+      run: |
+        #dotnet restore ${{env.SRC_PATH}}
+        #dotnet build ${{env.SRC_PATH}} --configuration Release --no-restore    
+        #dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
+        #dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
+        dotnet publish --self-contained true -r linux-x64 -c release ./src/WebAppUI/CnAppForAzureDev.csproj -o ./Build/publish   
 
     - name: Get Key ACR
       run: |
