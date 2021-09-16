@@ -1,4 +1,4 @@
-name: Test - Build and deploy
+name: Test - Build and deploy - First
 on:
   workflow_dispatch:
 
