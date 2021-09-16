@@ -3,17 +3,20 @@ on:
   workflow_dispatch:
 
 env:
+  # Resource Group et Azure Container Registry 
   LOCATION: "westeurope"  
   RG_NAME: "cnawebappui-rg"
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
   IMAGE_NAME: "woodgrove"
+
+  # Web App
   APP_PLAN_NAME: "cnawebappuiacr-plan"
   APP_PLAN_SKU: "P1v2"
   SITE_NAME: "woodgrove007"  
   ACR_REGISTRY_NAME: "cnawebappuiacr.azurecr.io"
   ACR_REGISTRY_USER: "cnawebappuiacr"
-  ACR_REGISTRY_PWD: "=bGjRHKm/xp+TL3AITAey35GHOFuYnOK"
+  #ACR_REGISTRY_PWD: "=bGjRHKm/xp+TL3AITAey35GHOFuYnOK"
   ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
   IMAGE_VERSION: "1.0.0"
   
@@ -34,11 +37,54 @@ jobs:
       with:        
           creds: ${{secrets.AZURE_CREDENTIALS}}
 
+    - name: Deploy infra (RG & ACR)
+      run: |
+        az deployment sub create \
+          --location ${{ env.LOCATION}} \
+          --template-file ./Bicep/mainACR.bicep \
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'ACRName=${{ env.ACR_NAME }}' 'ACRSku=${{ env.ACR_SKU }}'
+
+    - name: Build and Test the App
+      run: |
+        #dotnet restore ${{env.SRC_PATH}}
+        #dotnet build ${{env.SRC_PATH}} --configuration Release --no-restore    
+        #dotnet test ${{env.SRC_PATH}} --no-restore --verbosity normal
+        #dotnet publish ${{env.SRC_PATH}}/WebAppUI/ -o ${{env.SRC_PATH}}/WebAppUI/publish
+        dotnet publish --self-contained true -r linux-x64 -c release ./src/WebAppUI/CnAppForAzureDev.csproj -o ./Build/publish
+
+    - name: Get Key ACR
+      run: |
+        key=`az acr credential show --resource-group ${{ env.RG_NAME }} --name ${{ env.ACR_NAME}} --query passwords[0].value --output tsv`
+        echo "::set-output name=content::$key"
+      id: var_acrkey
+
+    - name: Connexion à Azure Container Registry
+      uses: docker/login-action@v1.10.0
+      with:
+        registry: ${{ env.ACR_NAME }}.azurecr.io
+        username: ${{ env.ACR_NAME }}
+        password: "${{ steps.var_acrkey.outputs.content }}"
+
+    - name: Extraire les métadonnées docker
+      id: meta
+      uses: docker/metadata-action@v3.5.0
+      with:
+        images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }} 
+        tags: |
+         type=semver,pattern={{version}},value=1.0.0
+
+    - name: Construire et pousser image Docker
+      uses: docker/build-push-action@v2.7.0
+      with:         
+          context: ./
+          file: ./Build/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
     - name: Deploy infra WebApp
       run: |
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/mainWebApp.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ env.ACR_REGISTRY_PWD }}' 'ImageName=${{ env.ACR_REGISTRY_IMAGE_NAME }}' 'ImageVersion=${{ env.IMAGE_VERSION }}'
-           
-
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ steps.var_acrkey.outputs.content }}' 'ImageName=${{ env.ACR_REGISTRY_IMAGE_NAME }}' 'ImageVersion=${{ env.IMAGE_VERSION }}'
