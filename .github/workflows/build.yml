@@ -14,7 +14,7 @@ env:
   ACR_REGISTRY_NAME: "https://cnawebappuiacr.azurecr.io"
   ACR_REGISTRY_USER: "cnawebappuiacr"
   ACR_REGISTRY_PWD: "=bGjRHKm/xp+TL3AITAey35GHOFuYnOK"
-  IMAGE_VERSION: "latest"
+  IMAGE_VERSION: "1.0.0"
   
   DOTNET_VERSION: 3.1.x
   SRC_PATH: ./src 
