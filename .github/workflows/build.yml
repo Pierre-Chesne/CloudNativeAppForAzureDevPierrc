@@ -14,9 +14,9 @@ env:
   APP_PLAN_NAME: "cnawebappuiacr-plan"
   APP_PLAN_SKU: "P1v2"
   SITE_NAME: "woodgrove007"  
-  ACR_REGISTRY_NAME: ${{ ACR_NAME }}.azurecr.io
-  ACR_REGISTRY_USER: ${{ ACR_NAME }}  
-  ACR_REGISTRY_IMAGE_NAME: ${{ ACR_NAME }}.azurecr.io/${{ IMAGE_NAME }}
+  ACR_REGISTRY_NAME: "cnawebappuiacr.azurecr.io"
+  ACR_REGISTRY_USER: "cnawebappuiacr"  
+  ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
   IMAGE_VERSION: "1.0.0"
 
 jobs:                                     
