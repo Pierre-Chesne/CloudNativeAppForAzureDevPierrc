@@ -33,11 +33,11 @@ jobs:
       with:        
           creds: ${{secrets.AZURE_CREDENTIALS}}
 
-    - name: Deploy infra (RG & ACR)
+    - name: Deploy infra WebApp
       run: |
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/mainWebApp.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ env.ACR_REGISTRY_PWD }}' 'ImageName=${{ env.IMAGE_NAME }}' 'ImageVersion${{ env.IMAGE_VERSION }}'
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ env.ACR_REGISTRY_PWD }}' 'ImageName=${{ env.IMAGE_NAME }}' 'ImageVersion=${{ env.IMAGE_VERSION }}'
 
 
