@@ -36,6 +36,6 @@ jobs:
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/mainWebApp.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env. }}' 'skuPlan=${{ env.APP_PLAN_SKU }}'
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}'
 
 
