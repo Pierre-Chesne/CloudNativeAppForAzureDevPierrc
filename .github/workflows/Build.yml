@@ -1,0 +1,27 @@
+name: Test - Update - Build
+on:
+  workflow_dispatch:
+
+
+env:
+  # Resource Group et Azure Container Registry 
+  LOCATION: "westeurope"  
+  RG_NAME: "cnawebappui-rg"
+  ACR_NAME: "cnawebappuiacr"
+  ACR_SKU: "Standard"
+  IMAGE_NAME: "woodgrove"
+  IMAGE_VERSION: "1.0.0"
+
+  # Web App
+  APP_PLAN_NAME: "cnawebappuiacr-plan"
+  APP_PLAN_SKU: "P1v2"
+  SITE_NAME: "woodgrove007"  
+  ACR_REGISTRY_NAME: "cnawebappuiacr.azurecr.io"
+  ACR_REGISTRY_USER: "cnawebappuiacr"  
+  ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
+  ACR_IMAGE_VERSION: "latest"
+  WEBHOOK: "webappwoodgrove007"
+
+jobs:                                     
+  build-Test-Push-Image:
+    runs-on: ubuntu-20.04
