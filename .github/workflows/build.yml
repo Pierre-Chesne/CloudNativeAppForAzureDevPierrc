@@ -7,7 +7,7 @@ env:
   RG_NAME: "cnawebappui-rg"
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
-  IMAGE_NAME: "woodGrove"
+  IMAGE_NAME: "woodgrove"
   APP_PLAN_NAME: "cnawebappuiacr-plan"
   APP_PLAN_SKU: "S1"
   SITE_NAME: "woodgrove007"  
