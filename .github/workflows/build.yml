@@ -17,7 +17,7 @@ env:
   ACR_REGISTRY_NAME: "cnawebappuiacr.azurecr.io"
   ACR_REGISTRY_USER: "cnawebappuiacr"  
   ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
-  IMAGE_VERSION: "1.0.0"
+  IMAGE_VERSION: "latest"
 
 jobs:                                     
   build-Test-Push-Image:
@@ -41,6 +41,9 @@ jobs:
 
     - name: Build and Test the App
       run: |
+        dotnet restore ./src/
+        dotnet build ./src/ --configuration Release --no-restore    
+        dotnet test ./src/ --no-restore --verbosity normal      
         dotnet publish --self-contained true -r linux-x64 -c release ./src/WebAppUI/CnAppForAzureDev.csproj -o ./Build/publish
 
     - name: Get Key ACR
