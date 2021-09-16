@@ -18,7 +18,7 @@ env:
   ACR_REGISTRY_NAME: "cnawebappuiacr.azurecr.io"
   ACR_REGISTRY_USER: "cnawebappuiacr"  
   ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
-  IMAGE_VERSION: "latest"
+  ACR_IMAGE_VERSION: "latest"
 
 jobs:                                     
   build-Test-Push-Image:
@@ -82,4 +82,4 @@ jobs:
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/mainWebApp.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ steps.var_acrkey.outputs.content }}' 'ImageName=${{ env.ACR_REGISTRY_IMAGE_NAME }}' 'ImageVersion=${{ env.IMAGE_VERSION }}'
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ steps.var_acrkey.outputs.content }}' 'ImageName=${{ env.ACR_REGISTRY_IMAGE_NAME }}' 'ImageVersion=${{ env.ACR_IMAGE_VERSION }}'
