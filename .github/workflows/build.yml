@@ -10,9 +10,11 @@ env:
   IMAGE_NAME: "WoodGrove"
   APP_PLAN_NAME: "cnawebappuiacr-plan"
   APP_PLAN_SKU: "S1"
-
-
-
+  SITE_NAME: "woodgrove007"  
+  ACR_REGISTRY_NAME: "https://cnawebappuiacr.azurecr.io"
+  ACR_REGISTRY_USER: "cnawebappuiacr"
+  ACR_REGISTRY_PWD: "=bGjRHKm/xp+TL3AITAey35GHOFuYnOK"
+  IMAGE_VERSION: "latest"
   
   DOTNET_VERSION: 3.1.x
   SRC_PATH: ./src 
@@ -36,6 +38,6 @@ jobs:
         az deployment sub create \
           --location ${{ env.LOCATION}} \
           --template-file ./Bicep/mainWebApp.bicep \
-          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}'
+          --parameters 'RgSiteName=${{ env.RG_NAME }}' 'appPlanName=${{ env.APP_PLAN_NAME }}' 'skuPlan=${{ env.APP_PLAN_SKU }}' 'siteName=${{ env.SITE_NAME }}' 'ACRRegistryName=${{ env.ACR_REGISTRY_NAME }}' 'ACRRegistryUser=${{ env.ACR_REGISTRY_USER }}' 'ACRRegistryPWD=${{ env.ACR_REGISTRY_PWD }}' 'ImageName=${{ env.IMAGE_NAME }}' 'ImageVersion${{ env.IMAGE_VERSION }}'
 
 
