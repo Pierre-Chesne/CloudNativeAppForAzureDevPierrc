@@ -19,6 +19,7 @@ env:
   ACR_REGISTRY_USER: "cnawebappuiacr"  
   ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
   ACR_IMAGE_VERSION: "latest"
+  WEBHOOK: "webappwoodgrove007"
 
 jobs:                                     
   build-Test-Push-Image:
@@ -93,9 +94,9 @@ jobs:
           --query CI_CD_URL \
           --output tsv`
         az acr webhook create \
-          --resource-group cnawebappui-rg \
-          --location westeurope \
-          --name webappwoodgrove007 \
-          --registry cnawebappuiacr \
+          --resource-group ${{ env.RG_NAME}} \
+          --location ${{ env.LOCATION}} \
+          --name ${{ env.WEBHOOK }} \
+          --registry ${{ env.ACR_NAME}} \
           --uri $ci_cd_webhook \
           --actions push --output none
