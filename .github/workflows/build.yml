@@ -42,10 +42,3 @@ jobs:
     - name : test
       run: |
         echo "${{ steps.var_acrkey.outputs.content }}"
-
-    - name: Connexion à Azure Container Registry
-      uses: docker/login-action@v1.10.0
-      with:
-        registry: "${{ env.ACR_NAME }}".azurecr.io"
-        username: "${{ env.ACR_NAME }}"
-        password: "${{ steps.var_acrkey.outputs.content }}"
