@@ -86,21 +86,6 @@ jobs:
 
     - name: Activation Webhook WebApp
       run: |
-        ci_cd_webhook=`az webapp deployment container \
-          config --name ${{ env.SITE_NAME}} \
-          --resource-group ${{ env.RG_NAME}} \
-          --enable-cd true \
-          --query CI_CD_URL \
-          --output tsv`
+        ci_cd_webhook=`az webapp deployment container config --name ${{ env.SITE_NAME}} --resource-group ${{ env.RG_NAME}} --enable-cd true --query CI_CD_URL --output tsv`
         echo $ci_cd_webhook
-
-    - name: Creation Webhook Azure Container Registry
-      run: |
-        az acr webhook create \
-         --resource-group cnawebappui-rg \
-         --location westeurope \
-         --name webappwoodgrove007 \
-         --registry cnawebappuiacr \
-         --uri $ci_cd_webhook \
-         --actions push \
-         --output none
+        az acr webhook create --resource-group cnawebappui-rg --location westeurope --name webappwoodgrove007 --registry cnawebappuiacr --uri $ci_cd_webhook --actions push --output none
