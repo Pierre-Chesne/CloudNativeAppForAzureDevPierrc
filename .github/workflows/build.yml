@@ -9,7 +9,7 @@ env:
   ACR_SKU: "Standard"
   IMAGE_NAME: "woodgrove"
   APP_PLAN_NAME: "cnawebappuiacr-plan"
-  APP_PLAN_SKU: "S1"
+  APP_PLAN_SKU: "P1v2"
   SITE_NAME: "woodgrove007"  
   ACR_REGISTRY_NAME: "https://cnawebappuiacr.azurecr.io"
   ACR_REGISTRY_USER: "cnawebappuiacr"
