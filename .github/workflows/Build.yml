@@ -1,6 +1,8 @@
 name: Test - Build and deploy
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - 'src/**'
 
 env:
   # Resource Group et Azure Container Registry 
@@ -9,18 +11,7 @@ env:
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
   IMAGE_NAME: "woodgrove"
-  IMAGE_VERSION: "1.0.1"
-
-  # Web App
-  APP_PLAN_NAME: "cnawebappuiacr-plan"
-  APP_PLAN_SKU: "P1v2"
-  SITE_NAME: "woodgrove007"  
-  ACR_REGISTRY_NAME: "cnawebappuiacr.azurecr.io"
-  ACR_REGISTRY_USER: "cnawebappuiacr"  
-  ACR_REGISTRY_IMAGE_NAME: "cnawebappuiacr.azurecr.io/woodgrove"
-  ACR_IMAGE_VERSION: "latest"
-  WEBHOOK: "webappwoodgrove007"
-
+  IMAGE_VERSION: "1.0.2"
 
 jobs:                                     
   build-Test-Push-Image:
@@ -72,4 +63,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
