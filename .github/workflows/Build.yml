@@ -1,7 +1,6 @@
-name: Test - Update - Build
+name: Test - Build and deploy
 on:
   workflow_dispatch:
-
 
 env:
   # Resource Group et Azure Container Registry 
@@ -22,6 +21,16 @@ env:
   ACR_IMAGE_VERSION: "latest"
   WEBHOOK: "webappwoodgrove007"
 
+
 jobs:                                     
   build-Test-Push-Image:
     runs-on: ubuntu-20.04
+
+    steps:
+    - name: "Checkout the code"
+      uses: actions/checkout@v2
+
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+          creds: ${{secrets.AZURE_CREDENTIALS}}
