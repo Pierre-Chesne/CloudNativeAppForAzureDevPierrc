@@ -9,7 +9,7 @@ env:
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
   IMAGE_NAME: "woodgrove"
-  IMAGE_VERSION: "1.0.0"
+  IMAGE_VERSION: "1.0.1"
 
   # Web App
   APP_PLAN_NAME: "cnawebappuiacr-plan"
@@ -34,3 +34,29 @@ jobs:
       uses: Azure/login@v1
       with:        
           creds: ${{secrets.AZURE_CREDENTIALS}}
+
+    - name: Build and Test the App
+      run: |
+        dotnet restore ./src/
+        dotnet build ./src/ --configuration Release --no-restore    
+        dotnet test ./src/ --no-restore --verbosity normal      
+        dotnet publish --self-contained true -r linux-x64 -c release ./src/WebAppUI/CnAppForAzureDev.csproj -o ./Build/publish
+
+
+    - name: Extraire les métadonnées docker
+      id: meta
+      uses: docker/metadata-action@v3.5.0
+      with:
+        images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }} 
+        tags: |
+         type=semver,pattern={{version}},value=${{ env.IMAGE_VERSION }}
+
+    - name: Construire et pousser image Docker
+      uses: docker/build-push-action@v2.7.0
+      with:         
+          context: ./
+          file: ./Build/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
