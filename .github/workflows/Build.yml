@@ -11,7 +11,7 @@ env:
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
   IMAGE_NAME: "woodgrove"
-  IMAGE_VERSION: "1.0.4"
+  IMAGE_VERSION: "0.5.1"
 
 jobs:                                     
   build-Test-Push-Image:
