@@ -2,7 +2,7 @@ name: Test - Build and deploy
 on:
   push:
     branches:
-      - 'Dev-01/src'
+      - 'Dev-01'
 
 env:
   # Resource Group et Azure Container Registry 
