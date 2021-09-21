@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.613.9944",
+      "templateHash": "11003906578440925869"
+    }
+  },
+  "parameters": {
+    "appPlanName": {
+      "type": "string"
+    },
+    "skuPlan": {
+      "type": "string"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2020-06-01",
+      "name": "[parameters('appPlanName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "linux",
+      "sku": {
+        "name": "[parameters('skuPlan')]"
+      },
+      "properties": {
+        "reserved": true
+      }
+    }
+  ],
+  "outputs": {
+    "appPlanId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Web/serverfarms', parameters('appPlanName'))]"
+    }
+  }
+}
