@@ -2,8 +2,6 @@ name: Test ~> Build ~> Push
 on:
   workflow_dispatch:
 
-
-
 env:
   # Resource Group et Azure Container Registry 
   LOCATION: "westeurope"  
@@ -17,15 +15,9 @@ jobs:
   build-Test-Push-Image:
     runs-on: ubuntu-20.04
 
-
     steps:
     - name: "Checkout the code"
       uses: actions/checkout@v2
-
-    - name: Login to Azure
-      uses: Azure/login@v1
-      with:        
-          creds: ${{secrets.AZURE_CREDENTIALS}}
 
     - name: Build and Test the App
       run: |
@@ -33,3 +25,12 @@ jobs:
         dotnet build ./src/ --configuration Release --no-restore    
         dotnet test ./src/ --no-restore --verbosity normal      
         dotnet publish --self-contained true -r linux-x64 -c release ./src/WebAppUI/CnAppForAzureDev.csproj -o ./Build/publish
+
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+    - name: Login Azure Container Registry
+      run: |
+        az acr login --name ${{ env.ACR_NAME }}
