@@ -1,0 +1,10 @@
+# Query: Techno OaaB
+# Including: ./src/WebAppUI
+# ContextLines: 1
+
+1 result - 1 file
+
+src/WebAppUI/Resources/Views/Home/Index.fr.resx:
+  129    <data name="SPECIALS" xml:space="preserve">
+  130:     <value>Promotion</value>
+  131    </data>
