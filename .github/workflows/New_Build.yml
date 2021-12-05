@@ -1,7 +1,8 @@
 name: Test ~> Build ~> Push
 on:
-  workflow_dispatch:
-
+  push:
+    paths:
+      - 'src/**'
 env:
   # Resource Group et Azure Container Registry 
   LOCATION: "westeurope"  
@@ -9,7 +10,7 @@ env:
   ACR_NAME: "cnawebappuiacr"
   ACR_SKU: "Standard"
   IMAGE_NAME: "woodgrove"
-  IMAGE_VERSION: "1.0.1"
+  IMAGE_VERSION: "1.0.5"
 
 jobs:                                     
   build-Test-Push-Image:
