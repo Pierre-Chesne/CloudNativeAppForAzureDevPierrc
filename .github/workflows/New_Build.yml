@@ -34,3 +34,11 @@ jobs:
     - name: Login Azure Container Registry
       run: |
         az acr login --name ${{ env.ACR_NAME }}
+
+    - name: Extraire les métadonnées docker
+      id: meta
+      uses: docker/metadata-action@v3.5.0
+      with:
+        images: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }} 
+        tags: |
+         type=semver,pattern={{version}},value=${{ env.IMAGE_VERSION }}
